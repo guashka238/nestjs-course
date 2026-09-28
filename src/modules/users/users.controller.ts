@@ -7,6 +7,7 @@ import {
   HttpStatus,
   Param,
   Patch,
+  Query,
 } from '@nestjs/common';
 
 import { CurrentUser } from '@/common/decorators/current-user.decorator';
@@ -15,6 +16,8 @@ import type { AuthenticatedUser } from '@/common/types/authenticated-user';
 import { JoiValidationPipe } from '@/common/pipes/joi-validation.pipe';
 import { uuidParamSchema } from '@/common/validation/schemas/uuid-param.schema';
 
+import { queryUsersSchema } from './dto/query-users.schema';
+import type { QueryUsersDto } from './dto/query-users.schema';
 import { updateUserSchema } from './dto/update-user.schema';
 import type { UpdateUserDto } from './dto/update-user.schema';
 import { toUserResponse } from './user-response.mapper';
@@ -29,9 +32,19 @@ export class UsersController {
 
   @RequirePermissions('users:list')
   @Get()
-  async findAll() {
-    const users = await this.usersService.listUsers();
-    return users.map(toUserResponse);
+  async findAll(
+    @Query(new JoiValidationPipe(queryUsersSchema)) query: QueryUsersDto,
+  ) {
+    const result = await this.usersService.listUsers(query);
+    return { ...result, items: result.items.map(toUserResponse) };
+  }
+
+  // Declared before ':id' so it isn't matched as a uuid param, and has no
+  // permission requirement since any authenticated user may read their own profile.
+  @Get('me')
+  async me(@CurrentUser() currentUser: AuthenticatedUser) {
+    const user = await this.usersService.getUser(currentUser.id);
+    return toUserResponse(user);
   }
 
   @RequirePermissions('users:read')

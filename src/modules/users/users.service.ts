@@ -4,8 +4,10 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 
+import type { PaginatedResult } from '@/common/types/paginated-result';
 import { RefreshTokensRepository } from '@/modules/auth/repositories/refresh-tokens.repository';
 
+import type { QueryUsersDto } from './dto/query-users.schema';
 import type { UpdateUserDto } from './dto/update-user.schema';
 import { User } from './entities/user.entity';
 import { UsersRepository } from './repositories/users.repository';
@@ -17,8 +19,16 @@ export class UsersService {
     private readonly refreshTokensRepository: RefreshTokensRepository,
   ) {}
 
-  listUsers(): Promise<User[]> {
-    return this.usersRepository.findAll();
+  async listUsers(query: QueryUsersDto): Promise<PaginatedResult<User>> {
+    const [items, total] = await this.usersRepository.findAll(query);
+
+    return {
+      items,
+      total,
+      page: query.page,
+      limit: query.limit,
+      totalPages: Math.ceil(total / query.limit),
+    };
   }
 
   async getUser(id: string): Promise<User> {

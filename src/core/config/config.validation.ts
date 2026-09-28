@@ -51,4 +51,38 @@ export const configValidationSchema = Joi.object<Config>({
   JWT_ACCESS_TTL: Joi.number().optional().default(900),
   JWT_REFRESH_SECRET: Joi.string().required(),
   JWT_REFRESH_TTL: Joi.number().optional().default(604800),
+
+  /**
+   * Local filesystem storage options
+   */
+  STORAGE_ROOT: Joi.string().optional().default('./storage'),
+
+  /**
+   * Per-source-format upload size limits (bytes)
+   */
+  UPLOAD_MAX_SIZE_CSV_BYTES: Joi.number().optional().default(10_485_760),
+  UPLOAD_MAX_SIZE_JSON_BYTES: Joi.number().optional().default(10_485_760),
+  UPLOAD_MAX_SIZE_XML_BYTES: Joi.number().optional().default(10_485_760),
+  UPLOAD_MAX_SIZE_YAML_BYTES: Joi.number().optional().default(10_485_760),
+  UPLOAD_MAX_SIZE_PNG_BYTES: Joi.number().optional().default(15_728_640),
+  UPLOAD_MAX_SIZE_JPEG_BYTES: Joi.number().optional().default(15_728_640),
+  UPLOAD_MAX_SIZE_SVG_BYTES: Joi.number().optional().default(2_097_152),
+
+  /**
+   * Maximum output dimensions when rasterizing SVG to PNG/JPEG
+   */
+  MAX_RASTER_WIDTH: Joi.number().optional().default(10_000),
+  MAX_RASTER_HEIGHT: Joi.number().optional().default(10_000),
+
+  /**
+   * Temp file cleanup
+   */
+  TEMP_FILE_MAX_AGE_MS: Joi.number().optional().default(86_400_000),
+
+  /**
+   * Transformation history / saved-result retention period (ms)
+   */
+  HISTORY_RETENTION_MS: Joi.number()
+    .optional()
+    .default(90 * 24 * 60 * 60 * 1000),
 });

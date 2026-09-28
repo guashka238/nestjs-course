@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 
-import { User } from '../entities/user.entity';
+import { Role, User } from '../entities/user.entity';
 import { UsersRepository } from './users.repository';
 
 interface MockOrmRepository {
@@ -9,7 +9,7 @@ interface MockOrmRepository {
   create: jest.Mock;
   save: jest.Mock;
   softDelete: jest.Mock;
-  find: jest.Mock;
+  findAndCount: jest.Mock;
 }
 
 describe('UsersRepository', () => {
@@ -27,7 +27,7 @@ describe('UsersRepository', () => {
             create: jest.fn(),
             save: jest.fn(),
             softDelete: jest.fn(),
-            find: jest.fn(),
+            findAndCount: jest.fn(),
           },
         },
       ],
@@ -103,16 +103,48 @@ describe('UsersRepository', () => {
   });
 
   describe('findAll', () => {
-    it('returns all users ordered by createdAt descending', async () => {
+    it('paginates, sorts and returns the total count', async () => {
       const users = [{ id: 'user-1' }] as User[];
-      ormRepository.find.mockResolvedValue(users);
+      ormRepository.findAndCount.mockResolvedValue([users, 1]);
 
-      const result = await repository.findAll();
-
-      expect(ormRepository.find).toHaveBeenCalledWith({
-        order: { createdAt: 'DESC' },
+      const result = await repository.findAll({
+        page: 2,
+        limit: 10,
+        sortBy: 'email',
+        sortOrder: 'asc',
       });
-      expect(result).toBe(users);
+
+      expect(ormRepository.findAndCount).toHaveBeenCalledWith({
+        where: {},
+        order: { email: 'ASC' },
+        skip: 10,
+        take: 10,
+      });
+      expect(result).toEqual([users, 1]);
+    });
+
+    it('applies email, role and isEmailVerified filters when provided', async () => {
+      ormRepository.findAndCount.mockResolvedValue([[], 0]);
+
+      await repository.findAll({
+        page: 1,
+        limit: 20,
+        sortBy: 'createdAt',
+        sortOrder: 'desc',
+        email: 'ali',
+        role: Role.ADMIN,
+        isEmailVerified: true,
+      });
+
+      expect(ormRepository.findAndCount).toHaveBeenCalledWith(
+        expect.objectContaining({
+          where: {
+            email: expect.any(Object) as object,
+            role: Role.ADMIN,
+            isEmailVerified: true,
+          },
+        }),
+      );
     });
   });
 });

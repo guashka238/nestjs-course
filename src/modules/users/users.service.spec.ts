@@ -49,12 +49,25 @@ describe('UsersService', () => {
   });
 
   describe('listUsers', () => {
-    it('delegates to the repository', async () => {
-      usersRepository.findAll.mockResolvedValue([user]);
+    it('delegates to the repository and wraps the result with pagination metadata', async () => {
+      usersRepository.findAll.mockResolvedValue([[user], 1]);
+      const query = {
+        page: 1,
+        limit: 20,
+        sortBy: 'createdAt' as const,
+        sortOrder: 'desc' as const,
+      };
 
-      const result = await service.listUsers();
+      const result = await service.listUsers(query);
 
-      expect(result).toEqual([user]);
+      expect(usersRepository.findAll).toHaveBeenCalledWith(query);
+      expect(result).toEqual({
+        items: [user],
+        total: 1,
+        page: 1,
+        limit: 20,
+        totalPages: 1,
+      });
     });
   });
 

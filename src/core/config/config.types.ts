@@ -43,4 +43,41 @@ export interface Config {
   JWT_ACCESS_TTL: number;
   JWT_REFRESH_SECRET: string;
   JWT_REFRESH_TTL: number;
+
+  /**
+   * Local filesystem storage options
+   */
+  STORAGE_ROOT?: string;
+
+  /**
+   * Per-source-format upload size limits (bytes), per the file/image
+   * transformation specs ("configured by an administrator separately for
+   * each input format").
+   */
+  UPLOAD_MAX_SIZE_CSV_BYTES?: number;
+  UPLOAD_MAX_SIZE_JSON_BYTES?: number;
+  UPLOAD_MAX_SIZE_XML_BYTES?: number;
+  UPLOAD_MAX_SIZE_YAML_BYTES?: number;
+  UPLOAD_MAX_SIZE_PNG_BYTES?: number;
+  UPLOAD_MAX_SIZE_JPEG_BYTES?: number;
+  UPLOAD_MAX_SIZE_SVG_BYTES?: number;
+
+  /**
+   * Maximum output dimensions when rasterizing SVG to PNG/JPEG
+   */
+  MAX_RASTER_WIDTH?: number;
+  MAX_RASTER_HEIGHT?: number;
+
+  /**
+   * Max age (ms) a temp file may linger before the startup sweep removes it
+   * as orphaned (e.g. left behind by a crash mid-processing).
+   */
+  TEMP_FILE_MAX_AGE_MS?: number;
+
+  /**
+   * How long a saved transformation result (and its history record) is kept
+   * before it's eligible for deletion, per the "history retention period"
+   * spec (administrator-configurable, e.g. 90 days).
+   */
+  HISTORY_RETENTION_MS?: number;
 }

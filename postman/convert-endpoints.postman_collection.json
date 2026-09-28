@@ -1,0 +1,404 @@
+{
+  "info": {
+    "name": "File Conversion API - /api/convert & /api/images/convert",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Manual test collection for the text and image conversion endpoints. Run Auth > Register, verify the user in Postgres, then Auth > Login before anything else. Attach a real sample file to each request's `file` field after import."
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:3007", "type": "string" }
+  ],
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"tester@example.com\",\n  \"password\": \"Password1\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/auth/register", "host": ["{{baseUrl}}"], "path": ["auth", "register"] }
+          }
+        },
+        {
+          "name": "Login (run after verifying the user in the DB)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"tester@example.com\",\n  \"password\": \"Password1\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/auth/login", "host": ["{{baseUrl}}"], "path": ["auth", "login"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Convert - Text (/api/convert)",
+      "item": [
+        {
+          "name": "GET formats",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/api/convert/formats", "host": ["{{baseUrl}}"], "path": ["api", "convert", "formats"] }
+          }
+        },
+        {
+          "name": "csv -> json",
+          "request": {
+            "method": "POST",
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                { "key": "targetFormat", "value": "json", "type": "text" },
+                { "key": "save", "value": "false", "type": "text" },
+                { "key": "file", "type": "file", "src": [] }
+              ]
+            },
+            "url": { "raw": "{{baseUrl}}/api/convert", "host": ["{{baseUrl}}"], "path": ["api", "convert"] }
+          }
+        },
+        {
+          "name": "csv -> xml",
+          "request": {
+            "method": "POST",
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                { "key": "targetFormat", "value": "xml", "type": "text" },
+                { "key": "save", "value": "false", "type": "text" },
+                { "key": "file", "type": "file", "src": [] }
+              ]
+            },
+            "url": { "raw": "{{baseUrl}}/api/convert", "host": ["{{baseUrl}}"], "path": ["api", "convert"] }
+          }
+        },
+        {
+          "name": "csv -> yaml",
+          "request": {
+            "method": "POST",
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                { "key": "targetFormat", "value": "yaml", "type": "text" },
+                { "key": "save", "value": "false", "type": "text" },
+                { "key": "file", "type": "file", "src": [] }
+              ]
+            },
+            "url": { "raw": "{{baseUrl}}/api/convert", "host": ["{{baseUrl}}"], "path": ["api", "convert"] }
+          }
+        },
+        {
+          "name": "json -> csv",
+          "request": {
+            "method": "POST",
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                { "key": "targetFormat", "value": "csv", "type": "text" },
+                { "key": "save", "value": "false", "type": "text" },
+                { "key": "file", "type": "file", "src": [] }
+              ]
+            },
+            "url": { "raw": "{{baseUrl}}/api/convert", "host": ["{{baseUrl}}"], "path": ["api", "convert"] }
+          }
+        },
+        {
+          "name": "json -> xml",
+          "request": {
+            "method": "POST",
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                { "key": "targetFormat", "value": "xml", "type": "text" },
+                { "key": "save", "value": "false", "type": "text" },
+                { "key": "file", "type": "file", "src": [] }
+              ]
+            },
+            "url": { "raw": "{{baseUrl}}/api/convert", "host": ["{{baseUrl}}"], "path": ["api", "convert"] }
+          }
+        },
+        {
+          "name": "json -> yaml",
+          "request": {
+            "method": "POST",
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                { "key": "targetFormat", "value": "yaml", "type": "text" },
+                { "key": "save", "value": "false", "type": "text" },
+                { "key": "file", "type": "file", "src": [] }
+              ]
+            },
+            "url": { "raw": "{{baseUrl}}/api/convert", "host": ["{{baseUrl}}"], "path": ["api", "convert"] }
+          }
+        },
+        {
+          "name": "xml -> csv",
+          "request": {
+            "method": "POST",
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                { "key": "targetFormat", "value": "csv", "type": "text" },
+                { "key": "save", "value": "false", "type": "text" },
+                { "key": "file", "type": "file", "src": [] }
+              ]
+            },
+            "url": { "raw": "{{baseUrl}}/api/convert", "host": ["{{baseUrl}}"], "path": ["api", "convert"] }
+          }
+        },
+        {
+          "name": "xml -> json",
+          "request": {
+            "method": "POST",
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                { "key": "targetFormat", "value": "json", "type": "text" },
+                { "key": "save", "value": "false", "type": "text" },
+                { "key": "file", "type": "file", "src": [] }
+              ]
+            },
+            "url": { "raw": "{{baseUrl}}/api/convert", "host": ["{{baseUrl}}"], "path": ["api", "convert"] }
+          }
+        },
+        {
+          "name": "xml -> yaml",
+          "request": {
+            "method": "POST",
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                { "key": "targetFormat", "value": "yaml", "type": "text" },
+                { "key": "save", "value": "false", "type": "text" },
+                { "key": "file", "type": "file", "src": [] }
+              ]
+            },
+            "url": { "raw": "{{baseUrl}}/api/convert", "host": ["{{baseUrl}}"], "path": ["api", "convert"] }
+          }
+        },
+        {
+          "name": "yaml -> csv",
+          "request": {
+            "method": "POST",
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                { "key": "targetFormat", "value": "csv", "type": "text" },
+                { "key": "save", "value": "false", "type": "text" },
+                { "key": "file", "type": "file", "src": [] }
+              ]
+            },
+            "url": { "raw": "{{baseUrl}}/api/convert", "host": ["{{baseUrl}}"], "path": ["api", "convert"] }
+          }
+        },
+        {
+          "name": "yaml -> json",
+          "request": {
+            "method": "POST",
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                { "key": "targetFormat", "value": "json", "type": "text" },
+                { "key": "save", "value": "false", "type": "text" },
+                { "key": "file", "type": "file", "src": [] }
+              ]
+            },
+            "url": { "raw": "{{baseUrl}}/api/convert", "host": ["{{baseUrl}}"], "path": ["api", "convert"] }
+          }
+        },
+        {
+          "name": "yaml -> xml",
+          "request": {
+            "method": "POST",
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                { "key": "targetFormat", "value": "xml", "type": "text" },
+                { "key": "save", "value": "false", "type": "text" },
+                { "key": "file", "type": "file", "src": [] }
+              ]
+            },
+            "url": { "raw": "{{baseUrl}}/api/convert", "host": ["{{baseUrl}}"], "path": ["api", "convert"] }
+          }
+        },
+        {
+          "name": "csv -> xml (save=true, persists under storage/results)",
+          "request": {
+            "method": "POST",
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                { "key": "targetFormat", "value": "xml", "type": "text" },
+                { "key": "save", "value": "true", "type": "text" },
+                { "key": "file", "type": "file", "src": [] }
+              ]
+            },
+            "url": { "raw": "{{baseUrl}}/api/convert", "host": ["{{baseUrl}}"], "path": ["api", "convert"] }
+          }
+        },
+        {
+          "name": "ERROR - invalid targetFormat (expect 400)",
+          "request": {
+            "method": "POST",
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                { "key": "targetFormat", "value": "png", "type": "text" },
+                { "key": "file", "type": "file", "src": [] }
+              ]
+            },
+            "url": { "raw": "{{baseUrl}}/api/convert", "host": ["{{baseUrl}}"], "path": ["api", "convert"] }
+          }
+        },
+        {
+          "name": "ERROR - missing file (expect 400)",
+          "request": {
+            "method": "POST",
+            "body": {
+              "mode": "formdata",
+              "formdata": [{ "key": "targetFormat", "value": "json", "type": "text" }]
+            },
+            "url": { "raw": "{{baseUrl}}/api/convert", "host": ["{{baseUrl}}"], "path": ["api", "convert"] }
+          }
+        },
+        {
+          "name": "ERROR - unsupported same-format pair csv->csv (expect 400)",
+          "request": {
+            "method": "POST",
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                { "key": "targetFormat", "value": "csv", "type": "text" },
+                { "key": "file", "type": "file", "src": [] }
+              ]
+            },
+            "url": { "raw": "{{baseUrl}}/api/convert", "host": ["{{baseUrl}}"], "path": ["api", "convert"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Convert - Images (/api/images/convert)",
+      "item": [
+        {
+          "name": "GET formats",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/api/images/convert/formats", "host": ["{{baseUrl}}"], "path": ["api", "images", "convert", "formats"] }
+          }
+        },
+        {
+          "name": "png -> jpeg (quality option)",
+          "request": {
+            "method": "POST",
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                { "key": "targetFormat", "value": "jpeg", "type": "text" },
+                { "key": "save", "value": "false", "type": "text" },
+                { "key": "options", "value": "{\"quality\":75}", "type": "text" },
+                { "key": "file", "type": "file", "src": [] }
+              ]
+            },
+            "url": { "raw": "{{baseUrl}}/api/images/convert", "host": ["{{baseUrl}}"], "path": ["api", "images", "convert"] }
+          }
+        },
+        {
+          "name": "jpeg -> png",
+          "request": {
+            "method": "POST",
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                { "key": "targetFormat", "value": "png", "type": "text" },
+                { "key": "save", "value": "false", "type": "text" },
+                { "key": "file", "type": "file", "src": [] }
+              ]
+            },
+            "url": { "raw": "{{baseUrl}}/api/images/convert", "host": ["{{baseUrl}}"], "path": ["api", "images", "convert"] }
+          }
+        },
+        {
+          "name": "svg -> png (width/height/background options)",
+          "request": {
+            "method": "POST",
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                { "key": "targetFormat", "value": "png", "type": "text" },
+                { "key": "save", "value": "false", "type": "text" },
+                { "key": "options", "value": "{\"width\":200,\"height\":200,\"background\":\"#eeeeee\"}", "type": "text" },
+                { "key": "file", "type": "file", "src": [] }
+              ]
+            },
+            "url": { "raw": "{{baseUrl}}/api/images/convert", "host": ["{{baseUrl}}"], "path": ["api", "images", "convert"] }
+          }
+        },
+        {
+          "name": "svg -> jpeg",
+          "request": {
+            "method": "POST",
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                { "key": "targetFormat", "value": "jpeg", "type": "text" },
+                { "key": "save", "value": "false", "type": "text" },
+                { "key": "file", "type": "file", "src": [] }
+              ]
+            },
+            "url": { "raw": "{{baseUrl}}/api/images/convert", "host": ["{{baseUrl}}"], "path": ["api", "images", "convert"] }
+          }
+        },
+        {
+          "name": "ERROR - png -> svg unsupported vectorization (expect 400)",
+          "request": {
+            "method": "POST",
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                { "key": "targetFormat", "value": "svg", "type": "text" },
+                { "key": "file", "type": "file", "src": [] }
+              ]
+            },
+            "url": { "raw": "{{baseUrl}}/api/images/convert", "host": ["{{baseUrl}}"], "path": ["api", "images", "convert"] }
+          }
+        },
+        {
+          "name": "ERROR - malicious SVG with <script> rejected (expect 400)",
+          "request": {
+            "method": "POST",
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                { "key": "targetFormat", "value": "png", "type": "text" },
+                { "key": "file", "type": "file", "src": [] }
+              ]
+            },
+            "url": { "raw": "{{baseUrl}}/api/images/convert", "host": ["{{baseUrl}}"], "path": ["api", "images", "convert"] }
+          }
+        },
+        {
+          "name": "ERROR - quality out of range (expect 400)",
+          "request": {
+            "method": "POST",
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                { "key": "targetFormat", "value": "jpeg", "type": "text" },
+                { "key": "options", "value": "{\"quality\":150}", "type": "text" },
+                { "key": "file", "type": "file", "src": [] }
+              ]
+            },
+            "url": { "raw": "{{baseUrl}}/api/images/convert", "host": ["{{baseUrl}}"], "path": ["api", "images", "convert"] }
+          }
+        }
+      ]
+    }
+  ]
+}

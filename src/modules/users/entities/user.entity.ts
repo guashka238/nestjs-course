@@ -35,7 +35,7 @@ export class User {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  // Soft delete: TransformationJob rows keep a valid userId after account deletion.
+  // Soft delete: Transformation rows keep a valid userId after account deletion.
   @DeleteDateColumn()
   deletedAt: Date | null;
 }
